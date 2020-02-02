@@ -1,0 +1,17 @@
+version: '3'
+services:
+  mongo01:
+    image: mongo:3.7.9
+    command: mongod --replSet rs1
+    ports:
+      - "27017:27017"
+  mongo02:
+    image: mongo:3.7.9
+    command: mongod --replSet rs1
+    ports:
+      - "27018:27017"
+  mongo03:
+    image: mongo:3.7.9
+    command: mongod --replSet rs1
+    ports:
+      - "27019:27017"
