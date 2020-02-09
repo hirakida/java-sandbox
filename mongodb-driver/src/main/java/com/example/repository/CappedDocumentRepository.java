@@ -4,6 +4,8 @@ import static com.example.config.MongoConfig.DATABASE_NAME;
 
 import java.util.List;
 
+import javax.annotation.PostConstruct;
+
 import org.bson.Document;
 import org.springframework.stereotype.Component;
 
@@ -30,16 +32,14 @@ public class CappedDocumentRepository {
         collection = database.getCollection(COLLECTION_NAME);
     }
 
-    public void drop() {
+    @PostConstruct
+    public void init() {
         collection.drop();
         CreateCollectionOptions options = new CreateCollectionOptions().capped(true)
                                                                        .sizeInBytes(1024000);
         database.createCollection(COLLECTION_NAME, options);
-    }
-
-    public String createIndex() {
-        return collection.createIndex(Indexes.ascending(KEY1_FIELD),
-                                      new IndexOptions().unique(true).background(true));
+        collection.createIndex(Indexes.ascending(KEY1_FIELD),
+                               new IndexOptions().unique(true).background(true));
     }
 
     public long countDocuments() {

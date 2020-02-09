@@ -39,14 +39,12 @@ public class UserController {
     @PostMapping("/users")
     @ResponseStatus(HttpStatus.CREATED)
     public void create(@RequestBody UserData userData) {
-        User user = new User(userData.getUserId(), userData.getName());
-        repository.insertOne(user);
+        repository.insertOne(toUser(userData));
     }
 
     @PutMapping("/users/{userId}")
     public User update(@PathVariable long userId, @RequestBody UserData userData) {
-        User user = new User(userId, userData.getName());
-        return repository.findOneAndUpdate(userId, user);
+        return repository.findOneAndUpdate(userId, toUser(userData));
     }
 
     @DeleteMapping("/users/{userId}")
@@ -60,9 +58,15 @@ public class UserController {
                             .collect(Collectors.toList());
     }
 
+    private static User toUser(UserData userData) {
+        return new User(userData.getUserId(), userData.getName(), userData.getRoleId(), userData.getAge());
+    }
+
     @Data
     public static class UserData {
         private long userId;
         private String name;
+        private long roleId;
+        private int age;
     }
 }

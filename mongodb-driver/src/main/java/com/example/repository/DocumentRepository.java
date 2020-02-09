@@ -4,6 +4,8 @@ import static com.example.config.MongoConfig.DATABASE_NAME;
 
 import java.util.List;
 
+import javax.annotation.PostConstruct;
+
 import org.bson.Document;
 import org.springframework.stereotype.Component;
 
@@ -32,17 +34,15 @@ public class DocumentRepository {
                                 .getCollection(COLLECTION_NAME);
     }
 
-    public void drop() {
+    @PostConstruct
+    public void init() {
         collection.drop();
-    }
-
-    public List<String> createIndexes() {
         List<IndexModel> indexes =
                 List.of(new IndexModel(Indexes.ascending(KEY1_FIELD),
                                        new IndexOptions().unique(true).background(true)),
                         new IndexModel(Indexes.ascending(KEY2_FIELD),
                                        new IndexOptions().unique(true).background(true)));
-        return collection.createIndexes(indexes);
+        collection.createIndexes(indexes);
     }
 
     public long countDocuments() {
@@ -54,7 +54,8 @@ public class DocumentRepository {
     }
 
     public FindIterable<Document> findDesc() {
-        return collection.find().sort(Sorts.descending(KEY1_FIELD));
+        return collection.find()
+                         .sort(Sorts.descending(KEY1_FIELD));
     }
 
     public FindIterable<Document> find(long key1) {
