@@ -12,10 +12,11 @@ import com.example.model.User;
 import com.mongodb.client.model.Filters;
 import com.mongodb.client.model.IndexOptions;
 import com.mongodb.client.model.Indexes;
+import com.mongodb.client.result.InsertManyResult;
+import com.mongodb.client.result.InsertOneResult;
 import com.mongodb.reactivestreams.client.FindPublisher;
 import com.mongodb.reactivestreams.client.MongoClient;
 import com.mongodb.reactivestreams.client.MongoCollection;
-import com.mongodb.reactivestreams.client.Success;
 
 @Component
 public class UserRepository {
@@ -29,7 +30,7 @@ public class UserRepository {
                                 .getCollection(COLLECTION_NAME, User.class);
     }
 
-    public Publisher<Success> drop() {
+    public Publisher<Void> drop() {
         return collection.drop();
     }
 
@@ -46,11 +47,11 @@ public class UserRepository {
         return collection.find(Filters.eq(USER_ID_FIELD, userId));
     }
 
-    public Publisher<Success> insertOne(User user) {
+    public Publisher<InsertOneResult> insertOne(User user) {
         return collection.insertOne(user);
     }
 
-    public Publisher<Success> insertMany(List<User> users) {
+    public Publisher<InsertManyResult> insertMany(List<User> users) {
         return collection.insertMany(users);
     }
 }

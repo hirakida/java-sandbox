@@ -8,8 +8,8 @@ import org.bson.codecs.configuration.CodecRegistry;
 import org.springframework.stereotype.Component;
 
 import com.example.model.Role;
-import com.mongodb.MongoClient;
 import com.mongodb.client.FindIterable;
+import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.model.Filters;
 import com.mongodb.client.model.IndexOptions;

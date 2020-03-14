@@ -1,5 +1,5 @@
 plugins {
-    id 'org.springframework.boot' version '2.2.4.RELEASE' apply false
+    id 'org.springframework.boot' version '2.2.5.RELEASE' apply false
     id 'com.avast.gradle.docker-compose' version '0.10.7' apply false
 }
 
@@ -15,6 +15,17 @@ subprojects {
 
     repositories {
         mavenCentral()
+    }
+
+    dependencyManagement {
+        dependencies {
+            dependencySet(group: 'org.mongodb', version: '4.0.0') {
+                entry 'bson'
+                entry 'mongodb-driver-core'
+                entry 'mongodb-driver-sync'
+                entry 'mongodb-driver-reactivestreams'
+            }
+        }
     }
 
     dependencies {

@@ -6,7 +6,9 @@ import org.bson.codecs.pojo.PojoCodecProvider;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import com.mongodb.MongoClient;
+import com.mongodb.MongoClientSettings;
+import com.mongodb.client.MongoClient;
+import com.mongodb.client.MongoClients;
 
 @Configuration
 public class MongoConfig {
@@ -14,7 +16,7 @@ public class MongoConfig {
 
     @Bean
     public MongoClient mongoClient() {
-        return new MongoClient();
+        return MongoClients.create();
     }
 
     @Bean
@@ -22,7 +24,7 @@ public class MongoConfig {
         PojoCodecProvider provider = PojoCodecProvider.builder()
                                                       .automatic(true)
                                                       .build();
-        return CodecRegistries.fromRegistries(MongoClient.getDefaultCodecRegistry(),
+        return CodecRegistries.fromRegistries(MongoClientSettings.getDefaultCodecRegistry(),
                                               CodecRegistries.fromProviders(provider));
     }
 }
