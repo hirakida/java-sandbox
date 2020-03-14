@@ -1,5 +1,5 @@
 rootProject.name = 'mongodb-demo'
 
-include ':mongodb-change-streams',
-        ':mongodb-driver',
-        ':mongodb-driver-reactivestreams'
+include ':change-streams',
+        ':reactive-streams-driver',
+        ':sync-driver'
