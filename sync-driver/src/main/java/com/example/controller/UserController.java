@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -22,32 +23,33 @@ import lombok.Data;
 import lombok.RequiredArgsConstructor;
 
 @RestController
+@RequestMapping("/users")
 @RequiredArgsConstructor
 public class UserController {
     private final UserRepository repository;
 
-    @GetMapping("/users")
+    @GetMapping
     public List<User> findAll() {
         return toList(repository.find());
     }
 
-    @GetMapping("/users/{userId}")
+    @GetMapping("/{userId}")
     public List<User> findById(@PathVariable long userId) {
         return toList(repository.find(userId));
     }
 
-    @PostMapping("/users")
+    @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public void create(@RequestBody UserData userData) {
-        repository.insertOne(toUser(userData));
+    public void create(@RequestBody UserRequest request) {
+        repository.insertOne(request.toUser());
     }
 
-    @PutMapping("/users/{userId}")
-    public User update(@PathVariable long userId, @RequestBody UserData userData) {
-        return repository.findOneAndUpdate(userId, toUser(userData));
+    @PutMapping("/{userId}")
+    public User update(@PathVariable long userId, @RequestBody UserRequest request) {
+        return repository.findOneAndUpdate(userId, request.toUser());
     }
 
-    @DeleteMapping("/users/{userId}")
+    @DeleteMapping("/{userId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable long userId) {
         repository.deleteOne(userId);
@@ -58,15 +60,15 @@ public class UserController {
                             .collect(Collectors.toList());
     }
 
-    private static User toUser(UserData userData) {
-        return new User(userData.getUserId(), userData.getName(), userData.getRoleId(), userData.getAge());
-    }
-
     @Data
-    public static class UserData {
+    public static class UserRequest {
         private long userId;
         private String name;
-        private long roleId;
         private int age;
+        private long roleId;
+
+        public User toUser() {
+            return new User(userId, name, age, roleId);
+        }
     }
 }

@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.model.User;
+
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import reactor.core.publisher.Flux;
@@ -30,7 +32,7 @@ public class UserController {
     }
 
     @GetMapping("/{userId}")
-    public Flux<User> findById(@PathVariable long userId) {
+    public Flux<User> findByUserId(@PathVariable long userId) {
         return Flux.from(userRepository.find(userId));
     }
 
@@ -47,9 +49,11 @@ public class UserController {
         private Long userId;
         @NotEmpty
         private String name;
+        @NotEmpty
+        private String city;
 
         public User toUser() {
-            return new User(userId, name);
+            return new User(userId, name, city);
         }
     }
 }

@@ -1,6 +1,5 @@
 package com.example.repository;
 
-import static com.example.config.MongoConfig.DATABASE_NAME;
 import static java.util.stream.Collectors.toList;
 
 import java.util.List;
@@ -16,8 +15,8 @@ import com.example.model.User;
 import com.mongodb.bulk.BulkWriteResult;
 import com.mongodb.client.AggregateIterable;
 import com.mongodb.client.FindIterable;
-import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoCollection;
+import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.model.Accumulators;
 import com.mongodb.client.model.Aggregates;
 import com.mongodb.client.model.BulkWriteOptions;
@@ -43,12 +42,10 @@ public class UserRepository {
     private final MongoCollection<User> collection;
     private final MongoCollection<Document> aggregateCollection;
 
-    public UserRepository(MongoClient mongoClient, CodecRegistry codecRegistry) {
-        collection = mongoClient.getDatabase(DATABASE_NAME)
-                                .withCodecRegistry(codecRegistry)
-                                .getCollection(COLLECTION_NAME, User.class);
-        aggregateCollection = mongoClient.getDatabase(DATABASE_NAME)
-                                         .getCollection(COLLECTION_NAME);
+    public UserRepository(MongoDatabase database, CodecRegistry codecRegistry) {
+        collection = database.withCodecRegistry(codecRegistry)
+                             .getCollection(COLLECTION_NAME, User.class);
+        aggregateCollection = database.getCollection(COLLECTION_NAME);
     }
 
     @PostConstruct

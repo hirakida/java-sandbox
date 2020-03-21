@@ -19,7 +19,7 @@ subprojects {
 
     dependencyManagement {
         dependencies {
-            dependencySet(group: 'org.mongodb', version: '4.0.0') {
+            dependencySet(group: 'org.mongodb', version: '4.0.1') {
                 entry 'bson'
                 entry 'mongodb-driver-core'
                 entry 'mongodb-driver-reactivestreams'

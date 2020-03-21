@@ -1,7 +1,5 @@
 package com.example.repository;
 
-import static com.example.config.MongoConfig.DATABASE_NAME;
-
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -10,8 +8,8 @@ import org.bson.Document;
 import org.springframework.stereotype.Component;
 
 import com.mongodb.client.FindIterable;
-import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoCollection;
+import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.model.Filters;
 import com.mongodb.client.model.IndexModel;
 import com.mongodb.client.model.IndexOptions;
@@ -29,9 +27,8 @@ public class DocumentRepository {
     public static final String KEY3_FIELD = "key3";
     private final MongoCollection<Document> collection;
 
-    public DocumentRepository(MongoClient mongoClient) {
-        collection = mongoClient.getDatabase(DATABASE_NAME)
-                                .getCollection(COLLECTION_NAME);
+    public DocumentRepository(MongoDatabase database) {
+        collection = database.getCollection(COLLECTION_NAME);
     }
 
     @PostConstruct

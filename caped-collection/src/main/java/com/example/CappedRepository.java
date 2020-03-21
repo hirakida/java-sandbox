@@ -1,6 +1,4 @@
-package com.example.repository;
-
-import static com.example.config.MongoConfig.DATABASE_NAME;
+package com.example;
 
 import java.util.List;
 
@@ -10,7 +8,6 @@ import org.bson.Document;
 import org.springframework.stereotype.Component;
 
 import com.mongodb.client.FindIterable;
-import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.model.CreateCollectionOptions;
@@ -21,25 +18,26 @@ import lombok.extern.slf4j.Slf4j;
 
 @Component
 @Slf4j
-public class CappedDocumentRepository {
+public class CappedRepository {
     private static final String COLLECTION_NAME = "capped";
-    private static final String KEY1_FIELD = "key1";
+    private static final String TIMESTAMP_FIELD = "timestamp";
     private final MongoDatabase database;
     private final MongoCollection<Document> collection;
 
-    public CappedDocumentRepository(MongoClient mongoClient) {
-        database = mongoClient.getDatabase(DATABASE_NAME);
+    public CappedRepository(MongoDatabase database) {
+        this.database = database;
         collection = database.getCollection(COLLECTION_NAME);
     }
 
     @PostConstruct
     public void init() {
-        collection.drop();
-        CreateCollectionOptions options = new CreateCollectionOptions().capped(true)
-                                                                       .sizeInBytes(1024000);
-        database.createCollection(COLLECTION_NAME, options);
-        collection.createIndex(Indexes.ascending(KEY1_FIELD),
-                               new IndexOptions().unique(true).background(true));
+        if (!exists()) {
+            database.createCollection(COLLECTION_NAME,
+                                      new CreateCollectionOptions().capped(true).sizeInBytes(1024000));
+
+            collection.createIndex(Indexes.ascending(TIMESTAMP_FIELD),
+                                   new IndexOptions().background(true));
+        }
     }
 
     public long countDocuments() {
@@ -56,5 +54,14 @@ public class CappedDocumentRepository {
 
     public void insertMany(List<Document> documents) {
         collection.insertMany(documents);
+    }
+
+    private boolean exists() {
+        for (String name : database.listCollectionNames()) {
+            if (COLLECTION_NAME.equals(name)) {
+                return true;
+            }
+        }
+        return false;
     }
 }

@@ -1,21 +1,19 @@
 package com.example;
 
-import static com.example.config.MongoConfig.DATABASE_NAME;
-
 import java.util.List;
 
-import org.bson.codecs.configuration.CodecRegistry;
 import org.reactivestreams.Publisher;
 import org.springframework.stereotype.Component;
 
+import com.example.model.User;
 import com.mongodb.client.model.Filters;
 import com.mongodb.client.model.IndexOptions;
 import com.mongodb.client.model.Indexes;
 import com.mongodb.client.result.InsertManyResult;
 import com.mongodb.client.result.InsertOneResult;
 import com.mongodb.reactivestreams.client.FindPublisher;
-import com.mongodb.reactivestreams.client.MongoClient;
 import com.mongodb.reactivestreams.client.MongoCollection;
+import com.mongodb.reactivestreams.client.MongoDatabase;
 
 @Component
 public class UserRepository {
@@ -23,10 +21,8 @@ public class UserRepository {
     private static final String USER_ID_FIELD = "userId";
     private final MongoCollection<User> collection;
 
-    public UserRepository(MongoClient mongoClient, CodecRegistry codecRegistry) {
-        collection = mongoClient.getDatabase(DATABASE_NAME)
-                                .withCodecRegistry(codecRegistry)
-                                .getCollection(COLLECTION_NAME, User.class);
+    public UserRepository(MongoDatabase database) {
+        collection = database.getCollection(COLLECTION_NAME, User.class);
     }
 
     public Publisher<Void> drop() {

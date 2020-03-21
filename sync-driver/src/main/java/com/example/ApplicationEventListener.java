@@ -15,7 +15,6 @@ import org.springframework.stereotype.Component;
 
 import com.example.model.Role;
 import com.example.model.User;
-import com.example.repository.CappedDocumentRepository;
 import com.example.repository.DocumentRepository;
 import com.example.repository.RoleRepository;
 import com.example.repository.UserRepository;
@@ -30,7 +29,6 @@ public class ApplicationEventListener {
     private final RoleRepository roleRepository;
     private final UserRepository userRepository;
     private final DocumentRepository documentRepository;
-    private final CappedDocumentRepository cappedDocumentRepository;
 
     @EventListener(ApplicationReadyEvent.class)
     public void readyEvent() {
@@ -53,22 +51,10 @@ public class ApplicationEventListener {
                                             .collect(toList());
         documentRepository.insertMany(documents);
 
-        IntStream.rangeClosed(1, 10)
-                 .mapToObj(i -> {
-                     Document document = new Document();
-                     document.append("key1", i);
-                     document.append("value1", "value" + i);
-                     return document;
-                 }).forEach(cappedDocumentRepository::insertOne);
-
         log.info("countDocuments: {}", userRepository.countDocuments());
         log.info("countDocuments: {}", documentRepository.countDocuments());
-        log.info("countDocuments: {}", cappedDocumentRepository.countDocuments());
 
         for (Document document : documentRepository.find()) {
-            log.info("{}", document);
-        }
-        for (Document document : cappedDocumentRepository.find()) {
             log.info("{}", document);
         }
 

@@ -11,12 +11,12 @@ import lombok.RequiredArgsConstructor;
 @Component
 @RequiredArgsConstructor
 public class ScheduledTasks {
-    private static final AtomicInteger count = new AtomicInteger(1);
+    private static final AtomicInteger COUNT = new AtomicInteger(1);
     private final UserRepository repository;
 
     @Scheduled(initialDelay = 5000, fixedRate = 5000)
     public void run() throws InterruptedException {
-        final int id = count.getAndIncrement();
+        final int id = COUNT.getAndIncrement();
         User user = new User(id, "name" + id);
 
         repository.insertOne(user);
