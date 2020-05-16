@@ -1,0 +1,5 @@
+dependencies {
+    implementation project(':project::model')
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.elasticsearch.client:elasticsearch-rest-high-level-client'
+}

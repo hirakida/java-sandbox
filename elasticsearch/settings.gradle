@@ -1,0 +1,6 @@
+rootProject.name = 'elasticsearch-demo'
+
+include 'project:model',
+        'project:rest-client',
+        'project:rest-high-level-client',
+        'project:transport-client'
