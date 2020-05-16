@@ -1,0 +1,6 @@
+version: '3'
+services:
+  centraldogma:
+    image: line/centraldogma:0.44.9
+    ports:
+      - "36462:36462"

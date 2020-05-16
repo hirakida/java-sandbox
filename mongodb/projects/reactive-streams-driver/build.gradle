@@ -1,3 +1,5 @@
+apply plugin: 'org.springframework.boot'
+
 dependencies {
     implementation 'org.mongodb:mongodb-driver-reactivestreams'
     implementation 'org.springframework.boot:spring-boot-starter-webflux'

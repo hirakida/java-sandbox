@@ -1,13 +1,11 @@
 plugins {
     id 'org.springframework.boot' version '2.3.0.RELEASE' apply false
-    id 'com.avast.gradle.docker-compose' version '0.12.0' apply false
+    id 'io.spring.dependency-management' version '1.0.9.RELEASE' apply false
 }
 
 subprojects {
     apply plugin: 'java'
-    apply plugin: 'org.springframework.boot'
     apply plugin: 'io.spring.dependency-management'
-    apply plugin: 'com.avast.gradle.docker-compose'
 
     group = 'com.example'
     version = '0.0.1-SNAPSHOT'

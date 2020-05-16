@@ -1,0 +1,9 @@
+[
+  {
+    "type": "single",
+    "direction": "REMOTE_TO_LOCAL",
+    "localRepo": "github",
+    "localPath": "/",
+    "remoteUri": "git+https://github.com/hirakida/config-repo.git/centraldogma"
+  }
+]

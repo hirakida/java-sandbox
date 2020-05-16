@@ -1,0 +1,7 @@
+spring:
+  output:
+    ansi:
+      enabled: always
+centraldogma:
+  hosts:
+    - 127.0.0.1:36462
