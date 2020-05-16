@@ -1,5 +1,7 @@
+apply plugin: 'org.springframework.boot'
+
 dependencies {
-    implementation project(':project::model')
+    implementation project(':projects::model')
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.elasticsearch.client:transport'
 }
