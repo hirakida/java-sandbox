@@ -1,6 +1,0 @@
-rootProject.name = 'mongodb-demo'
-
-include 'caped-collection',
-        'change-streams',
-        'reactive-streams-driver',
-        'sync-driver'
