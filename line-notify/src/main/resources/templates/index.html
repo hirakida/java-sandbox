@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>index</title>
+  <meta charset="UTF-8" />
+  <link rel="stylesheet" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}" />
+</head>
+<body>
+<div id="app" class="container">
+  <div class="row" style="margin-top:1em">
+    <div class="form-group">
+      <div id="accessToken" th:text="${accessToken}"></div>
+      <a class="btn btn-success" th:href="@{/authorize}"
+         th:classappend="${accessToken != null}? 'disabled' : ''">Issue an access token</a>
+    </div>
+  </div>
+  <div class="row">
+    <div style="min-width: 60%">
+      <label for="notifyMessage">Message to notify</label>
+      <textarea class="form-control" id="notifyMessage" title="message" rows="5"></textarea>
+    </div>
+  </div>
+  <div class="row">
+    <button class="btn btn-primary" id="submit" th:disabled="${accessToken == null}">Submit</button>
+  </div>
+</div>
+<script>
+  submit.onclick = () => {
+    const request = new XMLHttpRequest();
+    request.open('POST', '/api/notify');
+    request.setRequestHeader('Content-Type', 'application/json');
+    const data = JSON.stringify({message: notifyMessage.value});
+    request.send(data);
+  };
+</script>
+</body>
+</html>

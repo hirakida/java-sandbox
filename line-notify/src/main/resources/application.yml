@@ -1,0 +1,16 @@
+spring:
+  profiles:
+    include: secret
+  output:
+    ansi:
+      enabled: always
+server:
+  servlet:
+    session:
+      timeout: 1h
+
+line-notify:
+  client-id: xxxxxxxxxx
+  client-secret: xxxxxxxxxx
+  redirect-uri: http://localhost:8080/callback
+#  access-token: xxxxxxxxx
