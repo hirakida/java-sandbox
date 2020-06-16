@@ -3,6 +3,7 @@ package com.example.client;
 import java.io.IOException;
 import java.io.UncheckedIOException;
 import java.util.List;
+import java.util.Map;
 
 import org.elasticsearch.action.ActionListener;
 import org.elasticsearch.action.admin.indices.delete.DeleteIndexRequest;
@@ -17,6 +18,8 @@ import org.elasticsearch.action.index.IndexResponse;
 import org.elasticsearch.action.search.SearchRequest;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.action.support.master.AcknowledgedResponse;
+import org.elasticsearch.action.update.UpdateRequest;
+import org.elasticsearch.action.update.UpdateResponse;
 import org.elasticsearch.client.RequestOptions;
 import org.elasticsearch.client.RestHighLevelClient;
 import org.elasticsearch.client.indices.CreateIndexRequest;
@@ -32,10 +35,12 @@ import org.elasticsearch.index.query.MultiMatchQueryBuilder;
 import org.elasticsearch.index.query.QueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.index.query.RangeQueryBuilder;
+import org.elasticsearch.index.query.ScriptQueryBuilder;
 import org.elasticsearch.index.query.TermQueryBuilder;
 import org.elasticsearch.index.query.functionscore.FunctionScoreQueryBuilder;
 import org.elasticsearch.index.query.functionscore.FunctionScoreQueryBuilder.FilterFunctionBuilder;
 import org.elasticsearch.index.query.functionscore.ScoreFunctionBuilders;
+import org.elasticsearch.script.Script;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.elasticsearch.search.sort.FieldSortBuilder;
 import org.elasticsearch.search.sort.ScoreSortBuilder;
@@ -117,6 +122,22 @@ public class RestClientWrapper {
         }
     }
 
+    public BulkResponse bulkIndex(String index, Map<String, String> sources) {
+        BulkRequest bulkRequest = new BulkRequest();
+        sources.forEach((key, value) -> {
+            IndexRequest request = new IndexRequest(index);
+            request.id(key);
+            request.source(value, XContentType.JSON);
+            bulkRequest.add(request);
+        });
+
+        try {
+            return client.bulk(bulkRequest, RequestOptions.DEFAULT);
+        } catch (IOException e) {
+            throw new UncheckedIOException(e);
+        }
+    }
+
     public boolean exists(String index, String id) {
         GetRequest request = new GetRequest(index, id);
         try {
@@ -135,6 +156,30 @@ public class RestClientWrapper {
         }
     }
 
+    public UpdateResponse update(String index, String id, String source) {
+        UpdateRequest request = new UpdateRequest();
+        request.index(index);
+        request.id(id);
+        request.doc(source, XContentType.JSON);
+        try {
+            return client.update(request, RequestOptions.DEFAULT);
+        } catch (IOException e) {
+            throw new UncheckedIOException(e);
+        }
+    }
+
+    public UpdateResponse update(String index, String id, Script script) {
+        UpdateRequest request = new UpdateRequest();
+        request.index(index);
+        request.id(id);
+        request.script(script);
+        try {
+            return client.update(request, RequestOptions.DEFAULT);
+        } catch (IOException e) {
+            throw new UncheckedIOException(e);
+        }
+    }
+
     public DeleteResponse delete(String index, String id) {
         DeleteRequest request = new DeleteRequest(index, id);
         try {
@@ -142,6 +187,15 @@ public class RestClientWrapper {
         } catch (IOException e) {
             throw new UncheckedIOException(e);
         }
+    }
+
+    public SearchResponse searchByScript(String index, String fieldName, String value) {
+        Script script = new Script(String.format("doc['%s'].value > %s", fieldName, value));
+        ScriptQueryBuilder queryBuilder = QueryBuilders.scriptQuery(script);
+        FieldSortBuilder sortBuilder = SortBuilders.fieldSort(fieldName)
+                                                   .order(SortOrder.DESC);
+
+        return search(index, queryBuilder, sortBuilder);
     }
 
     public SearchResponse searchByTerm(String index, String fieldName, Object text) {
