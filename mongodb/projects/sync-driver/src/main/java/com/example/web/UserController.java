@@ -65,10 +65,9 @@ public class UserController {
         private long userId;
         private String name;
         private int age;
-        private long roleId;
 
         public User toUser() {
-            return new User(userId, name, age, roleId);
+            return new User(userId, name, age);
         }
     }
 }

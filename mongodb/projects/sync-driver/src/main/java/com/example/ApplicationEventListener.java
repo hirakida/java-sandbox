@@ -13,10 +13,8 @@ import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
 
-import com.example.model.Role;
 import com.example.model.User;
 import com.example.repository.DocumentRepository;
-import com.example.repository.RoleRepository;
 import com.example.repository.UserRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -26,17 +24,13 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 @Slf4j
 public class ApplicationEventListener {
-    private final RoleRepository roleRepository;
     private final UserRepository userRepository;
     private final DocumentRepository documentRepository;
 
     @EventListener(ApplicationReadyEvent.class)
     public void readyEvent() {
-        roleRepository.insertOne(new Role(0, "user"));
-        roleRepository.insertOne(new Role(1, "admin"));
-
-        List<User> users = IntStream.rangeClosed(1, 5)
-                                    .mapToObj(i -> new User(i, "user" + i, i % 2, 20 + i))
+        List<User> users = IntStream.rangeClosed(1, 10)
+                                    .mapToObj(i -> new User(i, "user" + i, 20 + i))
                                     .collect(toList());
         userRepository.bulkWrite(users);
 
@@ -56,22 +50,6 @@ public class ApplicationEventListener {
 
         for (Document document : documentRepository.find()) {
             log.info("{}", document);
-        }
-
-        for (Document document : userRepository.max()) {
-            log.info("max: {}", document);
-        }
-        for (Document document : userRepository.min()) {
-            log.info("min: {}", document);
-        }
-        for (Document document : userRepository.avg()) {
-            log.info("avg: {}", document);
-        }
-        for (Document document : userRepository.sum()) {
-            log.info("mum: {}", document);
-        }
-        for (Document document : userRepository.lookup()) {
-            log.info("lookup: {}", document);
         }
     }
 }

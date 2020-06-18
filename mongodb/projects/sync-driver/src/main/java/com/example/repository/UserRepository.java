@@ -6,25 +6,19 @@ import java.util.List;
 
 import javax.annotation.PostConstruct;
 
-import org.bson.Document;
 import org.bson.codecs.configuration.CodecRegistry;
-import org.bson.conversions.Bson;
 import org.springframework.stereotype.Component;
 
 import com.example.model.User;
 import com.mongodb.bulk.BulkWriteResult;
-import com.mongodb.client.AggregateIterable;
 import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
-import com.mongodb.client.model.Accumulators;
-import com.mongodb.client.model.Aggregates;
 import com.mongodb.client.model.BulkWriteOptions;
 import com.mongodb.client.model.Filters;
 import com.mongodb.client.model.IndexOptions;
 import com.mongodb.client.model.Indexes;
 import com.mongodb.client.model.InsertOneModel;
-import com.mongodb.client.model.Projections;
 import com.mongodb.client.model.ReplaceOptions;
 import com.mongodb.client.model.Sorts;
 import com.mongodb.client.model.Updates;
@@ -37,15 +31,11 @@ public class UserRepository {
     private static final String COLLECTION_NAME = "user";
     private static final String USER_ID_FIELD = "userId";
     private static final String NAME_FIELD = "name";
-    private static final String ROLE_ID_FIELD = "roleId";
-    private static final String AGE_FIELD = "age";
     private final MongoCollection<User> collection;
-    private final MongoCollection<Document> aggregateCollection;
 
     public UserRepository(MongoDatabase database, CodecRegistry codecRegistry) {
         collection = database.withCodecRegistry(codecRegistry)
                              .getCollection(COLLECTION_NAME, User.class);
-        aggregateCollection = database.getCollection(COLLECTION_NAME);
     }
 
     @PostConstruct
@@ -112,34 +102,5 @@ public class UserRepository {
 
     public User findOneAndDelete(long userId) {
         return collection.findOneAndDelete(Filters.eq(USER_ID_FIELD, userId));
-    }
-
-    public AggregateIterable<Document> avg() {
-        Bson group = Aggregates.group('$' + ROLE_ID_FIELD, Accumulators.avg("avg_age", '$' + AGE_FIELD));
-        return aggregateCollection.aggregate(List.of(group));
-    }
-
-    public AggregateIterable<Document> max() {
-        Bson group = Aggregates.group('$' + ROLE_ID_FIELD, Accumulators.max("max_age", '$' + AGE_FIELD));
-        return aggregateCollection.aggregate(List.of(group));
-    }
-
-    public AggregateIterable<Document> min() {
-        Bson group = Aggregates.group('$' + ROLE_ID_FIELD, Accumulators.min("min_age", '$' + AGE_FIELD));
-        return aggregateCollection.aggregate(List.of(group));
-    }
-
-    public AggregateIterable<Document> sum() {
-        Bson group = Aggregates.group('$' + ROLE_ID_FIELD, Accumulators.sum("sum_age", '$' + AGE_FIELD));
-        return aggregateCollection.aggregate(List.of(group));
-    }
-
-    public AggregateIterable<Document> lookup() {
-        Bson lookup = Aggregates.lookup("role", "roleId", "roleId", "role");
-        Bson project =
-                Aggregates.project(Projections.fields(
-                        Projections.excludeId(),
-                        Projections.exclude("roleId", "createdAt", "role._id")));
-        return aggregateCollection.aggregate(List.of(lookup, project));
     }
 }

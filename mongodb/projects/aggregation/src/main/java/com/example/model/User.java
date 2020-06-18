@@ -14,12 +14,14 @@ public class User {
     private long userId;
     private String name;
     private int age;
+    private long roleId;
     private LocalDateTime createdAt;
 
-    public User(long userId, String name, int age) {
+    public User(long userId, String name, int age, long roleId) {
         this.userId = userId;
         this.name = name;
         this.age = age;
+        this.roleId = roleId;
         createdAt = LocalDateTime.now();
     }
 }
