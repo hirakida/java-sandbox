@@ -9,8 +9,6 @@ import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
 
-import com.example.repository.UserRepository;
-
 import lombok.RequiredArgsConstructor;
 
 @Component
@@ -21,9 +19,7 @@ public class ApplicationEventListener {
 
     @EventListener(ApplicationReadyEvent.class)
     public void readyEvent() {
-        repository.drop();
-        repository.createIndex();
-
+        repository.init();
         executorService.execute(new ChangeStreamListener<>(repository.getCollection()));
     }
 

@@ -1,7 +1,5 @@
 package com.example.model;
 
-import java.time.LocalDateTime;
-
 import org.bson.types.ObjectId;
 
 import lombok.Data;
@@ -13,11 +11,9 @@ public class User {
     private ObjectId id;
     private long userId;
     private String name;
-    private LocalDateTime updatedAt;
 
     public User(long userId, String name) {
         this.userId = userId;
         this.name = name;
-        updatedAt = LocalDateTime.now();
     }
 }

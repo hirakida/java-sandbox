@@ -10,7 +10,6 @@ import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
 
 import com.example.model.User;
-import com.example.repository.UserRepository;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

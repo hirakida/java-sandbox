@@ -7,13 +7,12 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import com.example.model.User;
-import com.example.repository.UserRepository;
 
 import lombok.RequiredArgsConstructor;
 
 @Component
 @RequiredArgsConstructor
-public class ScheduledTasks {
+public class ScheduledTask {
     private static final AtomicInteger COUNT = new AtomicInteger(1);
     private final UserRepository repository;
 

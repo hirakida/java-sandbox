@@ -4,8 +4,8 @@ import java.util.List;
 
 import org.bson.conversions.Bson;
 
+import com.mongodb.client.MongoChangeStreamCursor;
 import com.mongodb.client.MongoCollection;
-import com.mongodb.client.MongoCursor;
 import com.mongodb.client.model.Aggregates;
 import com.mongodb.client.model.Filters;
 import com.mongodb.client.model.changestream.ChangeStreamDocument;
@@ -24,11 +24,12 @@ public final class ChangeStreamListener<T> implements Runnable {
 
     @Override
     public void run() {
-        List<Bson> pipeline = List.of(Aggregates.match(Filters.in(OPERATION_TYPE, OPERATIONS)));
-        MongoCursor<ChangeStreamDocument<T>> cursor = collection.watch(pipeline).iterator();
+        Bson filter = Filters.in(OPERATION_TYPE, OPERATIONS);
+        List<Bson> pipeline = List.of(Aggregates.match(filter));
+        MongoChangeStreamCursor<ChangeStreamDocument<T>> cursor = collection.watch(pipeline).cursor();
 
         try (cursor) {
-            while (cursor.hasNext()) {
+            while (true) {
                 ChangeStreamDocument<T> document = cursor.next();
                 log.info("{} {}", document.getOperationType(), document);
             }

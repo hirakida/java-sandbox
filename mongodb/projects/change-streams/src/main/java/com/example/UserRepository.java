@@ -1,6 +1,4 @@
-package com.example.repository;
-
-import java.time.LocalDateTime;
+package com.example;
 
 import org.springframework.stereotype.Component;
 
@@ -22,24 +20,20 @@ public class UserRepository {
     private static final String COLLECTION_NAME = "change-streams";
     private static final String USER_ID_FIELD = "userId";
     private static final String NAME_FIELD = "name";
-    private static final String UPDATED_AT_FIELD = "updatedAt";
     private final MongoCollection<User> collection;
 
     public UserRepository(MongoDatabase database) {
         collection = database.getCollection(COLLECTION_NAME, User.class);
     }
 
+    public void init() {
+        collection.drop();
+        collection.createIndex(Indexes.ascending(USER_ID_FIELD),
+                               new IndexOptions().unique(true).background(true));
+    }
+
     public MongoCollection<User> getCollection() {
         return collection;
-    }
-
-    public void drop() {
-        collection.drop();
-    }
-
-    public String createIndex() {
-        return collection.createIndex(Indexes.ascending(USER_ID_FIELD),
-                                      new IndexOptions().unique(true).background(true));
     }
 
     public void insertOne(User user) {
@@ -48,8 +42,7 @@ public class UserRepository {
 
     public UpdateResult updateOne(User user) {
         return collection.updateOne(Filters.eq(USER_ID_FIELD, user.getUserId()),
-                                    Updates.combine(Updates.set(NAME_FIELD, user.getName()),
-                                                    Updates.set(UPDATED_AT_FIELD, LocalDateTime.now())));
+                                    Updates.set(NAME_FIELD, user.getName()));
     }
 
     public DeleteResult deleteOne(long userId) {
