@@ -1,0 +1,21 @@
+plugins {
+    id 'java'
+    id 'application'
+}
+
+group 'com.example'
+version '0.0.1-SNAPSHOT'
+sourceCompatibility = JavaVersion.VERSION_11
+
+repositories {
+    mavenLocal()
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'ch.qos.logback:logback-classic:1.2.3'
+    implementation 'com.github.hirakida:maven-fatjar:0.1'
+    implementation 'com.github.hirakida:gradle-fatjar:0.1:all'
+}
+
+mainClassName = 'com.example.Main'
