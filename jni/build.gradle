@@ -1,0 +1,34 @@
+import org.gradle.internal.jvm.Jvm
+
+plugins {
+    id 'java'
+    id 'application'
+    id 'c'
+}
+
+group 'com.example'
+version '1.0-SNAPSHOT'
+sourceCompatibility = JavaVersion.VERSION_11
+
+repositories {
+    mavenCentral()
+}
+
+model {
+    components {
+        hello(NativeLibrarySpec) {
+            binaries.all {
+                cCompiler.args '-I', "${Jvm.current().javaHome}/include"
+                cCompiler.args '-I', "${Jvm.current().javaHome}/include/darwin"
+            }
+        }
+    }
+}
+
+build.dependsOn 'helloSharedLibrary'
+
+run {
+    systemProperty "java.library.path", file("${buildDir}/libs/hello/shared").absolutePath
+}
+
+mainClassName = 'com.example.Main'
