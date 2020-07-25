@@ -16,4 +16,10 @@ dependencies {
     implementation 'net.java.dev.jna:jna-platform:5.6.0'
 }
 
+task dynamicLib(type: Exec) {
+    commandLine 'gcc', '-dynamiclib', '-o', 'build/classes/java/main/libhello.dylib', 'src/main/c/hello.c'
+}
+
+build.finalizedBy dynamicLib
+
 mainClassName = 'com.example.Main'

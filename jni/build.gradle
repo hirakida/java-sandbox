@@ -28,7 +28,7 @@ model {
 build.dependsOn 'helloSharedLibrary'
 
 run {
-    systemProperty "java.library.path", file("${buildDir}/libs/hello/shared").absolutePath
+    systemProperty 'java.library.path', file("${buildDir}/libs/hello/shared").absolutePath
 }
 
 mainClassName = 'com.example.Main'
