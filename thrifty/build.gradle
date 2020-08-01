@@ -1,0 +1,21 @@
+plugins {
+    id 'org.springframework.boot' version '2.3.2.RELEASE' apply false
+    id 'com.microsoft.thrifty' version '2.1.1' apply false
+}
+
+subprojects {
+    apply plugin: 'java'
+    apply plugin: 'io.spring.dependency-management'
+
+    group = 'com.example'
+    version = '0.0.1-SNAPSHOT'
+    sourceCompatibility = JavaVersion.VERSION_11
+
+    repositories {
+        mavenCentral()
+    }
+
+    dependencies {
+        implementation 'org.apache.thrift:libthrift:0.13.0'
+    }
+}
