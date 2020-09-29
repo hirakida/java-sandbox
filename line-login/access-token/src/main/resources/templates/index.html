@@ -23,7 +23,7 @@
   </div>
   <div class="row" style="padding-top:10px;padding-bottom:10px;">
     <form method="post" action="/refresh_token">
-      <button class="btn btn-success" type="submit">Refresh token</button>
+      <button class="btn btn-success" type="submit">Refresh accessToken</button>
     </form>
   </div>
 
@@ -55,20 +55,12 @@
         <td th:text="${friendship}"></td>
       </tr>
       <tr>
-        <th>Token</th>
-        <td th:text="${token}"></td>
+        <th>AccessToken</th>
+        <td th:text="${accessToken}"></td>
       </tr>
       <tr>
-        <th>Access Token Verify</th>
-        <td th:text="${accessTokenVerify}"></td>
-      </tr>
-      <tr th:if="${payload1}">
-        <th>ID Token Payload (JWT)</th>
-        <td th:text="${payload1}"></td>
-      </tr>
-      <tr th:if="${payload2}">
-        <th>ID Token Payload (API)</th>
-        <td th:text="${payload2}"></td>
+        <th>RefreshToken</th>
+        <td th:text="${refreshToken}"></td>
       </tr>
       </tbody>
     </table>

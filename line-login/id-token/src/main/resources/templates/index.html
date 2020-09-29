@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>index</title>
+  <meta charset="UTF-8" />
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+        crossorigin="anonymous">
+  <style type="text/css">
+    .table {
+      table-layout: fixed;
+      overflow-wrap: break-word;
+      word-wrap: break-word;
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+  <div class="row" style="padding-top:10px;">
+    <a href="/logout" class="btn btn-info">Log out</a>
+  </div>
+
+  <div class="row">
+    <table class="table">
+      <thead></thead>
+      <tbody>
+      <tr>
+        <th style="width:25%">userId</th>
+        <td style="width:75%" th:text="*{sub}"></td>
+      </tr>
+      <tr>
+        <th>displayName</th>
+        <td th:text="*{name}"></td>
+      </tr>
+      <tr>
+        <th>picture</th>
+        <td>
+          <img th:src="*{picture + '/small'}" />
+          <img th:src="*{picture + '/large'}" />
+        </td>
+      </tr>
+      <tr th:if="${payload}">
+        <th>ID Token Payload</th>
+        <td th:text="${payload}"></td>
+      </tr>
+      <tr>
+        <th>AccessToken</th>
+        <td th:text="${accessToken}"></td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,15 @@
+spring:
+  profiles:
+    include: secret
+  output:
+    ansi:
+      enabled: always
+server:
+  servlet:
+    session:
+      timeout: 1h
+
+line-login:
+  channel-id: xxxxxxxxxx
+  channel-secret: xxxxxxxxxx
+  redirect-uri: http://localhost:8080/callback

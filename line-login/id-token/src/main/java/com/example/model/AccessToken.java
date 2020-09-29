@@ -7,7 +7,7 @@ import lombok.Data;
 
 @JsonNaming(SnakeCaseStrategy.class)
 @Data
-public class Token {
+public class AccessToken {
     private String scope;
     private String accessToken;
     private String idToken;
