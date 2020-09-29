@@ -31,6 +31,8 @@ public class UserRepository {
     private static final String COLLECTION_NAME = "user";
     private static final String USER_ID_FIELD = "userId";
     private static final String NAME_FIELD = "name";
+    private static final String AGE_FIELD = "age";
+    private static final String CREATED_AT_FIELD = "createdAt";
     private final MongoCollection<User> collection;
 
     public UserRepository(MongoDatabase database, CodecRegistry codecRegistry) {
@@ -43,6 +45,8 @@ public class UserRepository {
         collection.drop();
         collection.createIndex(Indexes.ascending(USER_ID_FIELD),
                                new IndexOptions().unique(true).background(true));
+        collection.createIndex(Indexes.compoundIndex(Indexes.ascending(AGE_FIELD),
+                                                     Indexes.ascending(CREATED_AT_FIELD)));
     }
 
     public long countDocuments() {

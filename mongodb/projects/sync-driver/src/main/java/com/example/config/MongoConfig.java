@@ -17,13 +17,13 @@ public class MongoConfig {
     private static final String DATABASE_NAME = "db1";
 
     @Bean
-    public MongoDatabase mongoDatabase(MongoClient mongoClient) {
-        return mongoClient.getDatabase(DATABASE_NAME);
+    public MongoClient mongoClient() {
+        return MongoClients.create(CONNECTION_STRING);
     }
 
     @Bean
-    public MongoClient mongoClient() {
-        return MongoClients.create(CONNECTION_STRING);
+    public MongoDatabase mongoDatabase(MongoClient mongoClient) {
+        return mongoClient.getDatabase(DATABASE_NAME);
     }
 
     @Bean
