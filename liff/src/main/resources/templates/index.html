@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="liffId" th:content="${liffId}">
+  <title>LIFF Demo</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+        integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z"
+        crossorigin="anonymous">
+</head>
+<body>
+<div class="container">
+  <div>
+    <button type="button" class="close" id="closeBtn">&times;</button>
+  </div>
+  <div class="table-responsive" style="margin-top:1em; margin-bottom:1em;">
+    <table class="table table-sm">
+      <thead></thead>
+      <tbody>
+      <tr>
+        <th>os</th>
+        <td><span id="os"></span></td>
+      </tr>
+      <tr>
+        <th>language</th>
+        <td><span id="language"></span></td>
+      </tr>
+      <tr>
+        <th>version</th>
+        <td><span id="version"></span></td>
+      </tr>
+      <tr>
+        <th>line version</th>
+        <td><span id="lineVersion"></span></td>
+      </tr>
+      <tr>
+        <th>in client</th>
+        <td><span id="inClient"></span></td>
+      </tr>
+      <tr>
+        <th>logged in</th>
+        <td><span id="loggedIn"></span></td>
+      </tr>
+      <tr>
+        <th>context</th>
+        <td><span id="context"></span></td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div>
+    <button type="button" class="btn btn-primary" id="profileBtn">profile</button>
+  </div>
+  <div class="table-responsive" style="margin-bottom:1em;">
+    <table class="table table-sm">
+      <thead></thead>
+      <tbody>
+      <tr>
+        <th>userId</th>
+        <td><span id="userId"></span></td>
+      </tr>
+      <tr>
+        <th>displayName</th>
+        <td><span id="displayName"></span></td>
+      </tr>
+      <tr>
+        <th>pictureUrl</th>
+        <td><img id="pictureUrl" src="" width="200" height="200" /></td>
+      </tr>
+      <tr>
+        <th>statusMessage</th>
+        <td><span id="statusMessage"></span></td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="input-group" style="margin-bottom:1em;">
+    <input type="text" class="form-control" id="textMessage" title="message" />
+    <span class="input-group-btn">
+      <button type="button" class="btn btn-secondary" id="sendTextBtn">send</button>
+    </span>
+    <div id="sendError"></div>
+  </div>
+</div>
+<footer>
+</footer>
+<script charset="utf-8" src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
+<script src="/index.js" defer></script>
+</body>
+</html>
