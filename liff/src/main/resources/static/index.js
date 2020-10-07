@@ -11,6 +11,12 @@ window.onload = () => {
             loggedIn.innerText = liff.isLoggedIn();
             context.innerText = JSON.stringify(liff.getContext());
 
+            loginBtn.onclick = () => {
+                if (!liff.isLoggedIn()) {
+                    liff.login();
+                }
+            };
+
             closeBtn.onclick = () => {
                 liff.closeWindow();
             };

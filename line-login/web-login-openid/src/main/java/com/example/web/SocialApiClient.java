@@ -53,7 +53,7 @@ public class SocialApiClient {
         restTemplate.postForObject(url, request, Void.class);
     }
 
-    public IdTokenPayload verifyIdToken(String idToken, String nonce, String userId) {
+    public IdTokenPayload verifyIdToken(String idToken, String nonce) {
         String url = UriComponentsBuilder.fromHttpUrl(BASE_URL)
                                          .path("/oauth2/v2.1/verify")
                                          .toUriString();
@@ -61,7 +61,6 @@ public class SocialApiClient {
         body.add("id_token", idToken);
         body.add("client_id", properties.getChannelId());
         body.add("nonce", nonce);
-        body.add("user_id", userId);
         var request = new HttpEntity<>(body, getHeaders());
 
         return restTemplate.postForObject(url, request, IdTokenPayload.class);

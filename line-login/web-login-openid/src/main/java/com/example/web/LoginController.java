@@ -66,9 +66,7 @@ public class LoginController {
         session.setAccessToken(accessToken.getAccessToken());
         session.setPayload(payload);
 
-        IdTokenPayload verified = socialApiClient.verifyIdToken(accessToken.getIdToken(),
-                                                                session.getNonce(),
-                                                                payload.getSub());
+        IdTokenPayload verified = socialApiClient.verifyIdToken(accessToken.getIdToken(), session.getNonce());
         log.info("{}", verified);
 
         return "redirect:/";
