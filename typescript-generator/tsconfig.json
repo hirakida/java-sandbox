@@ -1,0 +1,12 @@
+{
+  "compilerOptions": {
+    "target": "ES2018",
+    "sourceMap": false,
+    "rootDir": "src/main/ts",
+    "outDir": "build/resources/main/static/"
+  },
+  "include": [
+    "build/generated/ts/types/*/*.ts",
+    "src/main/ts/*.ts"
+  ]
+}

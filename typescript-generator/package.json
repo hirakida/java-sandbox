@@ -1,0 +1,17 @@
+{
+  "name": "typescript-generator-demo",
+  "version": "1.0.0",
+  "description": "typescript-generator demo",
+  "repository": "https://github.com/hirakida/java-sandbox",
+  "main": "index.js",
+  "dependencies": {},
+  "devDependencies": {
+    "typescript": "^4.0.3"
+  },
+  "scripts": {
+    "build": "node_modules/.bin/tsc",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC"
+}
