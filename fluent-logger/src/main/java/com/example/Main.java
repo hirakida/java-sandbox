@@ -26,5 +26,7 @@ public class Main {
                 break;
             }
         }
+
+        FLUENT_LOGGER.close();
     }
 }
