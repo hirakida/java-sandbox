@@ -1,0 +1,19 @@
+plugins {
+    id 'java'
+    id 'application'
+}
+
+group 'com.example'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = JavaVersion.VERSION_11
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'org.fluentd:fluent-logger:0.3.4'
+    implementation 'ch.qos.logback:logback-classic:1.2.3'
+}
+
+mainClassName = 'com.example.Main'

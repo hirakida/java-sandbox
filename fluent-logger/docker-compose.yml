@@ -1,0 +1,12 @@
+version: "3"
+services:
+  fluentd:
+    image: fluent/fluentd:v1.11-1
+    ports:
+      - "24224:24224"
+    volumes:
+      - ./docker/fluentd/log:/fluentd/log
+#      - ./docker/fluentd/etc/fluent.conf:/fluentd/etc/fluent.conf
+volumes:
+  es_data1:
+    driver: local
