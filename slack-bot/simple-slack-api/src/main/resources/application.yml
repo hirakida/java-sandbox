@@ -1,0 +1,11 @@
+spring:
+  profiles:
+    include: secret
+  output:
+    ansi:
+      enabled: always
+
+slack:
+  bot-user-name: java-bot
+  token: xxxxxxxxxx
+  channel: general

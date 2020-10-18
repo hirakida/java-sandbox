@@ -1,0 +1,13 @@
+spring:
+  profiles:
+    include: secret
+  jackson:
+    property-naming-strategy: SNAKE_CASE
+  output:
+    ansi:
+      enabled: always
+
+slackApi: https://slack.com/api
+slackBotToken: XXXXXXXXXX
+#slashCommandToken: <paste your slash command token>
+#slackIncomingWebhookUrl: https://slack.com
