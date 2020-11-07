@@ -1,0 +1,15 @@
+plugins {
+    id 'java'
+}
+
+group 'com.example'
+version '0.0.1-SNAPSHOT'
+sourceCompatibility = JavaVersion.VERSION_11
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'com.google.guava:guava:30.0-jre'
+}

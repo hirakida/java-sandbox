@@ -1,0 +1,22 @@
+plugins {
+    id 'java'
+    id 'application'
+}
+
+group = 'com.example'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = JavaVersion.VERSION_15
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    annotationProcessor 'org.projectlombok:lombok:1.18.12'
+    compileOnly 'org.projectlombok:lombok:1.18.12'
+    implementation 'ch.qos.logback:logback-classic:1.2.3'
+    implementation 'com.zaxxer:HikariCP:3.4.5'
+    runtimeOnly 'com.h2database:h2:1.4.200'
+}
+
+mainClassName = 'com.example.Main'

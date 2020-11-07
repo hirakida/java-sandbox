@@ -43,10 +43,4 @@ public class Main {
             throw new RuntimeException(e);
         }
     }
-
-    public static class GreetingInterceptor {
-        public Object greet(Object argument) {
-            return "Hello from " + argument;
-        }
-    }
 }

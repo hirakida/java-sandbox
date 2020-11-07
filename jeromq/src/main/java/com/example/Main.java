@@ -18,8 +18,8 @@ public class Main {
 
     public static void main(String[] args) {
         ExecutorService executorService = Executors.newFixedThreadPool(2);
-        executorService.execute(Main::publish);
         executorService.execute(Main::subscribe);
+        executorService.execute(Main::publish);
         executorService.shutdown();
     }
 
@@ -31,13 +31,10 @@ public class Main {
             while (!Thread.currentThread().isInterrupted()) {
                 publisher.sendMore(TOPIC);
                 String data = LocalDateTime.now().toString();
+                log.info("send: {} {}", TOPIC, data);
                 publisher.send(data);
 
-                try {
-                    TimeUnit.SECONDS.sleep(3);
-                } catch (InterruptedException e) {
-                    log.error("{}", e.getMessage(), e);
-                }
+                sleep(3);
             }
         }
     }
@@ -52,9 +49,17 @@ public class Main {
                 String topic = subscriber.recvStr();
                 if (subscriber.hasReceiveMore()) {
                     String data = subscriber.recvStr();
-                    log.info("{} {}", topic, data);
+                    log.info("recv: {} {}", topic, data);
                 }
             }
+        }
+    }
+
+    private static void sleep(long timeout) {
+        try {
+            TimeUnit.SECONDS.sleep(timeout);
+        } catch (InterruptedException e) {
+            log.error("{}", e.getMessage(), e);
         }
     }
 }
