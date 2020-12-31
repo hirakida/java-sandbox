@@ -1,5 +1,6 @@
 package com.example;
 
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import org.junit.jupiter.api.Test;
@@ -48,6 +49,61 @@ public class FlowableTest {
                 .subscribe(item -> System.out.println("onNext: " + item),
                            e -> System.out.println("onError"),
                            () -> System.out.println("onComplete"));
+    }
+
+    @Test
+    public void startWith() {
+        Flowable.range(6, 5)
+                .startWith(Flowable.range(1, 5))
+                .subscribe(item -> System.out.println("onNext: " + item),
+                           e -> System.out.println("onError"),
+                           () -> System.out.println("onComplete"));
+    }
+
+    @Test
+    public void concat() throws Exception {
+        Flowable.concat(Flowable.range(1, 5)
+                                .subscribeOn(Schedulers.newThread())
+                                .doOnNext(i -> System.out.println(threadName() + " doOnNext: " + i)),
+                        Flowable.range(6, 5)
+                                .subscribeOn(Schedulers.newThread())
+                                .doOnNext(i -> System.out.println(threadName() + " doOnNext: " + i)))
+                .subscribe(item -> System.out.println(threadName() + " onNext: " + item),
+                           e -> System.out.println(threadName() + " onError"),
+                           () -> System.out.println(threadName() + " onComplete"));
+
+        TimeUnit.MILLISECONDS.sleep(100);
+    }
+
+    @Test
+    public void concatEager() throws Exception {
+        Flowable.concatEager(
+                List.of(Flowable.range(1, 5)
+                                .subscribeOn(Schedulers.newThread())
+                                .doOnNext(i -> System.out.println(threadName() + " doOnNext: " + i)),
+                        Flowable.range(6, 5)
+                                .subscribeOn(Schedulers.newThread())
+                                .doOnNext(i -> System.out.println(threadName() + " doOnNext: " + i))))
+                .subscribe(item -> System.out.println(threadName() + " onNext: " + item),
+                           e -> System.out.println(threadName() + " onError"),
+                           () -> System.out.println(threadName() + " onComplete"));
+
+        TimeUnit.MILLISECONDS.sleep(100);
+    }
+
+    @Test
+    public void concatArrayEager() throws Exception {
+        Flowable.concatArrayEager(Flowable.range(1, 5)
+                                          .subscribeOn(Schedulers.newThread())
+                                          .doOnNext(i -> System.out.println(threadName() + " doOnNext: " + i)),
+                                  Flowable.range(6, 5)
+                                          .subscribeOn(Schedulers.newThread())
+                                          .doOnNext(i -> System.out.println(threadName() + " doOnNext: " + i)))
+                .subscribe(item -> System.out.println(threadName() + " onNext: " + item),
+                           e -> System.out.println(threadName() + " onError"),
+                           () -> System.out.println(threadName() + " onComplete"));
+
+        TimeUnit.MILLISECONDS.sleep(100);
     }
 
     @Test
