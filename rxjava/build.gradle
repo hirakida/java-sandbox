@@ -1,0 +1,19 @@
+plugins {
+    id 'java'
+}
+
+group = 'com.example'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = JavaVersion.VERSION_11
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    annotationProcessor 'org.projectlombok:lombok:1.18.16'
+    compileOnly 'org.projectlombok:lombok:1.18.16'
+    implementation 'io.reactivex.rxjava2:rxjava:2.2.20'
+    implementation 'ch.qos.logback:logback-classic:1.2.3'
+    testImplementation 'org.junit.jupiter:junit-jupiter:5.7.0'
+}
