@@ -11,8 +11,11 @@ repositories {
 }
 
 dependencies {
-    annotationProcessor 'org.projectlombok:lombok:1.18.16'
-    compileOnly 'org.projectlombok:lombok:1.18.16'
+    def lombokVersion = '1.18.16'
+    annotationProcessor "org.projectlombok:lombok:${lombokVersion}"
+    compileOnly "org.projectlombok:lombok:${lombokVersion}"
+    testAnnotationProcessor "org.projectlombok:lombok:${lombokVersion}"
+    testCompileOnly "org.projectlombok:lombok:${lombokVersion}"
     implementation 'io.reactivex.rxjava2:rxjava:2.2.20'
     implementation 'ch.qos.logback:logback-classic:1.2.3'
     testImplementation 'org.junit.jupiter:junit-jupiter:5.7.0'
