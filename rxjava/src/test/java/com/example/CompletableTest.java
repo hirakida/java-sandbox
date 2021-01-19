@@ -1,9 +1,14 @@
 package com.example;
 
+import java.util.List;
+
 import org.junit.jupiter.api.Test;
 
 import io.reactivex.Completable;
+import io.reactivex.schedulers.Schedulers;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 public class CompletableTest {
 
     @Test
@@ -49,10 +54,36 @@ public class CompletableTest {
     }
 
     @Test
+    public void merge() {
+        Completable.merge(List.of(Completable.fromRunnable(() -> log.info("run1")),
+                                  Completable.fromRunnable(() -> log.info("run2"))))
+                   .andThen(Completable.fromRunnable(() -> log.info("run3")))
+                   .subscribe(() -> log.info("subscribe"));
+    }
+
+    @Test
     public void mergeArray() {
-        Completable.mergeArray(Completable.fromAction(() -> System.out.println("fromAction1")),
-                               Completable.fromAction(() -> System.out.println("fromAction2")))
-                   .andThen(Completable.fromAction(() -> System.out.println("fromAction3")))
-                   .subscribe();
+        Completable.mergeArray(Completable.fromRunnable(() -> log.info("run1"))
+                                          .subscribeOn(Schedulers.newThread()),
+                               Completable.fromRunnable(() -> log.info("run2")))
+                   .andThen(Completable.fromRunnable(() -> log.info("run3")))
+                   .subscribe(() -> log.info("subscribe"));
+    }
+
+    @Test
+    public void concat() {
+        Completable.concat(List.of(Completable.fromAction(() -> log.info("action1")),
+                                   Completable.fromAction(() -> log.info("action2"))))
+                   .andThen(Completable.fromAction(() -> log.info("action3")))
+                   .subscribe(() -> log.info("subscribe"));
+    }
+
+    @Test
+    public void concatArray() {
+        Completable.concatArray(Completable.fromAction(() -> log.info("action1"))
+                                           .subscribeOn(Schedulers.newThread()),
+                                Completable.fromAction(() -> log.info("action2")))
+                   .andThen(Completable.fromAction(() -> log.info("action3")))
+                   .subscribe(() -> log.info("subscribe"));
     }
 }

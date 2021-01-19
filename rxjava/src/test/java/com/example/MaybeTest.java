@@ -18,6 +18,7 @@ public class MaybeTest {
     @Test
     public void just2() {
         Maybe.just(2)
+             .compose(value -> value.defaultIfEmpty(10))
              .doOnSubscribe(item -> System.out.println("doOnSubscribe"))
              .doOnSuccess(item -> System.out.println("doOnSuccess: " + item))
              .doOnComplete(() -> System.out.println("doOnComplete"))

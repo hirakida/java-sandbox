@@ -4,13 +4,17 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 import java.time.LocalTime;
+import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import org.junit.jupiter.api.Test;
 
 import io.reactivex.Flowable;
 import io.reactivex.Single;
 import io.reactivex.SingleSource;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 public class SingleTest {
 
     @Test
@@ -88,6 +92,84 @@ public class SingleTest {
                                                   Single.just(4));
         flowable.test()
                 .assertValues(1, 2, 3, 4);
+    }
+
+    @Test
+    public void concat() throws Exception {
+        Single.concat(Single.just(1)
+                            .delay(10, TimeUnit.MILLISECONDS)
+                            .doOnSuccess(item -> log.info("doOnSuccess: {}", item)),
+                      Single.just(2)
+                            .doOnSuccess(item -> log.info("doOnSuccess: {}", item)),
+                      Single.just(3)
+                            .doOnSuccess(item -> log.info("doOnSuccess: {}", item)),
+                      Single.just(4)
+                            .doOnSuccess(item -> log.info("doOnSuccess: {}", item)))
+              .subscribe(item -> log.info("onNext: {}", item),
+                         e -> log.error("onError", e),
+                         () -> log.info("onComplete"));
+
+        TimeUnit.MILLISECONDS.sleep(100);
+    }
+
+    @Test
+    public void concatArray() throws Exception {
+        Single.concatArray(Single.just(1)
+                                 .delay(10, TimeUnit.MILLISECONDS)
+                                 .doOnSuccess(item -> log.info("doOnSuccess: {}", item)),
+                           Single.just(2)
+                                 .doOnSuccess(item -> log.info("doOnSuccess: {}", item)),
+                           Single.just(3)
+                                 .doOnSuccess(item -> log.info("doOnSuccess: {}", item)),
+                           Single.just(4)
+                                 .doOnSuccess(item -> log.info("doOnSuccess: {}", item)),
+                           Single.just(5)
+                                 .doOnSuccess(item -> log.info("doOnSuccess: {}", item)))
+              .subscribe(item -> log.info("onNext: {}", item),
+                         e -> log.error("onError", e),
+                         () -> log.info("onComplete"));
+
+        TimeUnit.MILLISECONDS.sleep(100);
+    }
+
+    @Test
+    public void concatEager() throws Exception {
+        Single.concatEager(List.of(Single.just(1)
+                                         .delay(10, TimeUnit.MILLISECONDS)
+                                         .doOnSuccess(item -> log.info("doOnSuccess: {}", item)),
+                                   Single.just(2)
+                                         .doOnSuccess(item -> log.info("doOnSuccess: {}", item)),
+                                   Single.just(3)
+                                         .doOnSuccess(item -> log.info("doOnSuccess: {}", item)),
+                                   Single.just(4)
+                                         .doOnSuccess(item -> log.info("doOnSuccess: {}", item)),
+                                   Single.just(5)
+                                         .doOnSuccess(item -> log.info("doOnSuccess: {}", item))))
+              .subscribe(item -> log.info("onNext: {}", item),
+                         e -> log.error("onError", e),
+                         () -> log.info("onComplete"));
+
+        TimeUnit.MILLISECONDS.sleep(100);
+    }
+
+    @Test
+    public void concatArrayEager() throws Exception {
+        Single.concatArrayEager(Single.just(1)
+                                      .delay(10, TimeUnit.MILLISECONDS)
+                                      .doOnSuccess(item -> log.info("doOnSuccess: {}", item)),
+                                Single.just(2)
+                                      .doOnSuccess(item -> log.info("doOnSuccess: {}", item)),
+                                Single.just(3)
+                                      .doOnSuccess(item -> log.info("doOnSuccess: {}", item)),
+                                Single.just(4)
+                                      .doOnSuccess(item -> log.info("doOnSuccess: {}", item)),
+                                Single.just(5)
+                                      .doOnSuccess(item -> log.info("doOnSuccess: {}", item)))
+              .subscribe(item -> log.info("onNext: {}", item),
+                         e -> log.error("onError", e),
+                         () -> log.info("onComplete"));
+
+        TimeUnit.MILLISECONDS.sleep(100);
     }
 
     @Test

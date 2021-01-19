@@ -32,10 +32,26 @@ public class FlowableTest {
 
     @Test
     public void merge() throws Exception {
-        Flowable.merge(Flowable.range(1, 5)
-                               .subscribeOn(Schedulers.newThread()),
-                       Flowable.range(6, 5)
-                               .subscribeOn(Schedulers.newThread()))
+        Flowable.merge(Flowable.range(1, 2)
+                               .delay(10, TimeUnit.MILLISECONDS),
+                       Flowable.range(3, 2),
+                       Flowable.range(5, 2),
+                       Flowable.range(7, 2))
+                .subscribe(item -> log.info("onNext: {}", item),
+                           e -> log.error("onError", e),
+                           () -> log.info("onComplete"));
+
+        TimeUnit.MILLISECONDS.sleep(100);
+    }
+
+    @Test
+    public void mergeArray() throws Exception {
+        Flowable.mergeArray(Flowable.just(1)
+                                    .delay(10, TimeUnit.MILLISECONDS),
+                            Flowable.just(2),
+                            Flowable.just(3),
+                            Flowable.just(4),
+                            Flowable.just(5))
                 .subscribe(item -> log.info("onNext: {}", item),
                            e -> log.error("onError", e),
                            () -> log.info("onComplete"));
