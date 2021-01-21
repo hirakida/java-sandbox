@@ -1,0 +1,41 @@
+plugins {
+    id 'org.springframework.boot' version '2.4.2'
+    id 'io.spring.dependency-management' version '1.0.10.RELEASE'
+    id 'com.google.cloud.tools.jib' version '2.7.1'
+    id 'java'
+}
+
+group = 'com.example'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = JavaVersion.VERSION_11
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+}
+
+test {
+    useJUnitPlatform()
+}
+
+jib {
+    from {
+        image = 'openjdk:11-jdk-slim'
+    }
+    to {
+        image = 'hirakida/jib-demo'
+        tags = ['latest']
+        auth {
+            username = 'hirakida'
+            password = System.getenv('DOCKER_HUB_PASSWORD')
+        }
+    }
+    container {
+        mainClass = 'com.example.Application'
+        ports = ['8080/tcp']
+    }
+}
