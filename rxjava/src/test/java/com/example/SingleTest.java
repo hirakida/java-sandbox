@@ -173,12 +173,17 @@ public class SingleTest {
     }
 
     @Test
-    public void zip() {
-        Single<Integer> single = Single.zip(Single.just(1),
-                                            Single.just(2),
-                                            Integer::sum);
-        single.test()
-              .assertValue(3);
+    public void zip() throws Exception {
+        Single.zip(Single.just(1)
+                         .delay(10, TimeUnit.MILLISECONDS)
+                         .doOnSuccess(item -> log.info("doOnSuccess: {}", item)),
+                   Single.just(2)
+                         .delay(10, TimeUnit.MILLISECONDS)
+                         .doOnSuccess(item -> log.info("doOnSuccess: {}", item)),
+                   Integer::sum)
+              .subscribe();
+
+        TimeUnit.MILLISECONDS.sleep(100);
     }
 
     private static String threadName() {

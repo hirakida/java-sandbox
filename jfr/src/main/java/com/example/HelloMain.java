@@ -8,24 +8,24 @@ import jdk.jfr.Event;
 import jdk.jfr.Label;
 import jdk.jfr.Name;
 
-public class HelloEventMain {
-
-    public static void main(String[] args) throws InterruptedException {
-        while (true) {
-            HelloEvent event = new HelloEvent();
-            event.message = "Hello!";
-            event.begin();
-            TimeUnit.SECONDS.sleep(5);
-            event.commit();
-        }
-    }
+public class HelloMain {
 
     @Name("hirakida.Hello")
     @Label("Hello")
-    @Category("Hello")
+    @Category("JFR Demo")
     @Description("Hello Event")
     public static class HelloEvent extends Event {
         @Label("Message")
         String message;
+    }
+
+    public static void main(String[] args) throws Exception {
+        while (true) {
+            HelloEvent event = new HelloEvent();
+            event.message = "Hello!";
+            event.begin();
+            TimeUnit.SECONDS.sleep(1);
+            event.commit();
+        }
     }
 }
