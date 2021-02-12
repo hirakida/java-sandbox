@@ -1,0 +1,15 @@
+rootProject.name = 'java-sandbox'
+
+include 'anonymous',
+        'collection',
+        'completable-future',
+        'concurrent',
+        'enum',
+        'functional-interface',
+        'generics',
+        'network',
+        'others',
+        'queue',
+        'reflection',
+        'serialize',
+        'stream'

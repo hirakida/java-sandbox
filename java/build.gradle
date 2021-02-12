@@ -1,0 +1,22 @@
+subprojects {
+    apply plugin: 'java'
+
+    group 'com.example'
+    version '1.0-SNAPSHOT'
+    sourceCompatibility = JavaVersion.VERSION_11
+
+    repositories {
+        mavenCentral()
+    }
+
+    configurations {
+        compileOnly {
+            extendsFrom annotationProcessor
+        }
+    }
+
+    dependencies {
+        annotationProcessor 'org.projectlombok:lombok:1.18.18'
+        implementation 'ch.qos.logback:logback-classic:1.2.3'
+    }
+}
