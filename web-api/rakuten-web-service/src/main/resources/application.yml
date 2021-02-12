@@ -1,0 +1,18 @@
+spring:
+  profiles:
+    include: secret
+  web:
+    resources:
+      chain:
+        strategy:
+          content:
+            enabled: true
+server:
+  servlet:
+    session:
+      timeout: 5m
+
+rws:
+#  applicationId: #####
+#  applicationSecret: #####
+  redirectUri: https://rakuten-web-service-demo.mybluemix.net/callback

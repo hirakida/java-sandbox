@@ -1,0 +1,34 @@
+{
+  "name": "rakuten-web-service-demo",
+  "version": "1.0.0",
+  "description": "Rakuten Webservice demo",
+  "main": "index.js",
+  "scripts": {
+    "build-dev": "node_modules/.bin/webpack --mode development",
+    "build": "node_modules/.bin/webpack --mode production",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hirakida/java-sandbox.git"
+  },
+  "author": "hirakida",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.21.1",
+    "vue": "^2.6.12",
+    "vue-router": "^3.5.1",
+    "vuex": "^3.6.2"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.12.13",
+    "@babel/plugin-proposal-object-rest-spread": "^7.12.13",
+    "@babel/preset-env": "^7.12.13",
+    "babel-loader": "^8.2.2",
+    "css-loader": "^5.0.2",
+    "vue-loader": "^15.9.6",
+    "vue-template-compiler": "^2.6.12",
+    "webpack": "^5.21.2",
+    "webpack-cli": "^4.5.0"
+  }
+}
