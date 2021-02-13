@@ -1,0 +1,40 @@
+plugins {
+    id 'org.springframework.boot' version '2.4.2'
+    id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+    id 'com.github.node-gradle.node' version '3.0.1'
+    id 'java'
+}
+
+group = 'com.example'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = JavaVersion.VERSION_11
+
+repositories {
+    mavenCentral()
+}
+
+node {
+    download = true
+}
+
+dependencies {
+    annotationProcessor 'org.projectlombok:lombok'
+    compileOnly 'org.projectlombok:lombok'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
+    implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    runtimeOnly 'com.h2database:h2'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+}
+
+task webpack(type: NpmTask, dependsOn: npmInstall) {
+    def profile = System.env['spring.profiles.active'] ?: 'release'
+    args = ['run', profile == 'local' ? 'build-dev' : 'build']
+}
+
+processResources.dependsOn webpack
+
+clean.doFirst {
+    delete "${projectDir}/node_modules"
+}

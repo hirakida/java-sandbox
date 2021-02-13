@@ -1,0 +1,14 @@
+spring:
+  datasource:
+    url: jdbc:h2:mem:h2_nuxt
+    username: sa
+    password:
+  jpa:
+    hibernate:
+      ddl-auto: update
+    open-in-view: false
+  thymeleaf:
+    prefix: classpath:/public/
+  output:
+    ansi:
+      enabled: always
