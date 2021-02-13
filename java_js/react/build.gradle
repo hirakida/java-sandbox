@@ -1,0 +1,48 @@
+plugins {
+    id 'org.springframework.boot' version '2.4.2'
+    id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+    id 'com.github.node-gradle.node' version '3.0.1'
+    id 'java'
+}
+
+group = 'com.example'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = JavaVersion.VERSION_11
+
+repositories {
+    mavenCentral()
+}
+
+node {
+    download = true
+    nodeModulesDir = file("${project.projectDir}/frontend")
+}
+
+dependencies {
+    annotationProcessor 'org.projectlombok:lombok'
+    compileOnly 'org.projectlombok:lombok'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+}
+
+task('runBuild', type: NpmTask, dependsOn: 'npmInstall') {
+    args = ['run', 'build']
+}
+
+task('copyJs', type: Copy, dependsOn: 'runBuild') {
+    from './frontend/build/static/js'
+    into "$buildDir/resources/main/static/static/js"
+}
+
+task('copyHtml', type: Copy, dependsOn: 'runBuild') {
+    from './frontend/build/'
+    include 'index.html'
+    into "$buildDir/resources/main/static"
+}
+
+processResources.dependsOn 'copyJs', 'copyHtml'
+
+clean.doFirst {
+    delete "${project.projectDir}/frontend/build"
+//    delete "${project.projectDir}/frontend/node_modules"
+}

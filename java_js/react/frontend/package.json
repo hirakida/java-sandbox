@@ -1,0 +1,27 @@
+{
+  "name": "react-demo",
+  "version": "0.0.1",
+  "private": true,
+  "dependencies": {
+    "prop-types": "^15.7.2",
+    "react": "^17.0.1",
+    "react-dom": "^17.0.1",
+    "react-redux": "^7.2.2",
+    "react-scripts": "4.0.2",
+    "redux": "^4.0.5",
+    "redux-actions": "^2.6.5",
+    "redux-promise": "^0.6.0",
+    "web-vitals": "^1.1.0"
+  },
+  "scripts": {
+    "start": "./node_modules/.bin/react-scripts start",
+    "build": "./node_modules/.bin/react-scripts build",
+    "test": "./node_modules/.bin/react-scripts test --env=jsdom",
+    "eject": "./node_modules/.bin/react-scripts eject"
+  },
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not op_mini all"
+  ]
+}

@@ -15,7 +15,7 @@ repositories {
 
 node {
     download = true
-    nodeModulesDir = file("${projectDir}/nuxt")
+    nodeModulesDir = file("${projectDir}/frontend")
 }
 
 dependencies {
@@ -29,12 +29,13 @@ dependencies {
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
 
-task buildNuxt(type: NpmTask, dependsOn: npmInstall) {
+task npmBuild(type: NpmTask, dependsOn: npmInstall) {
     args = ['run', 'build']
 }
 
-processResources.dependsOn buildNuxt
+processResources.dependsOn npmBuild
 
 clean.doFirst {
-    delete "${projectDir}/nuxt/node_modules"
+    delete "${projectDir}/frontend/.nuxt"
+//    delete "${projectDir}/frontend/node_modules"
 }
