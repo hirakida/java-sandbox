@@ -1,0 +1,10 @@
+jar {
+    manifest {
+        attributes(
+                'Premain-Class': 'com.example.HelloAgent',
+                'Boot-Class-Path': 'javassist-3.27.0-GA.jar',
+                'Can-Redefine-Classes': true,
+                'Can-Retransform-Classes': true,
+        )
+    }
+}

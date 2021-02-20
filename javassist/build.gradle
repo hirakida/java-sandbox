@@ -1,0 +1,15 @@
+subprojects {
+    apply plugin: 'java'
+
+    group 'com.example'
+    version '0.0.1-SNAPSHOT'
+    sourceCompatibility = JavaVersion.VERSION_11
+
+    repositories {
+        mavenCentral()
+    }
+
+    dependencies {
+        implementation 'org.javassist:javassist:3.27.0-GA'
+    }
+}

@@ -1,0 +1,9 @@
+plugins {
+    id 'application'
+}
+
+mainClassName = 'com.example.Main'
+
+run {
+    jvmArgs = ['-javaagent:../hello-agent/build/libs/hello-agent-0.0.1-SNAPSHOT.jar']
+}
