@@ -1,4 +1,3 @@
 rootProject.name = 'annotation-processor-demo'
 
-include 'hello-demo',
-        'hello-processor'
+include 'demo', 'hello-processor'

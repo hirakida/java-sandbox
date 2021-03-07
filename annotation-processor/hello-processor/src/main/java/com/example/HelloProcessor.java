@@ -26,13 +26,14 @@ public class HelloProcessor extends AbstractProcessor {
 
     @Override
     public boolean process(Set<? extends TypeElement> annotations, RoundEnvironment roundEnv) {
-        messager.printMessage(Kind.NOTE, "Processor: note");
-        messager.printMessage(Kind.WARNING, "Processor: warning");
-
         System.out.println("annotations: " + annotations);
         for (TypeElement annotation : annotations) {
             Set<? extends Element> elements = roundEnv.getElementsAnnotatedWith(annotation);
             System.out.println("elements: " + elements);
+
+            if (elements.isEmpty()) {
+                messager.printMessage(Kind.NOTE, "elements is empty.");
+            }
         }
         return true;
     }

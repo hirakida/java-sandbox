@@ -1,4 +1,10 @@
+plugins {
+    id 'application'
+}
+
 dependencies {
     annotationProcessor project(':hello-processor')
     compileOnly project(':hello-processor')
 }
+
+mainClassName = 'com.example.Main'

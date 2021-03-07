@@ -1,0 +1,22 @@
+plugins {
+    id 'java'
+    id 'application'
+}
+
+group 'com.example'
+version '1.0-SNAPSHOT'
+sourceCompatibility = JavaVersion.VERSION_11
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'cglib:cglib:3.3.0'
+}
+
+mainClassName = 'com.example.Main'
+
+run {
+    jvmArgs = ['--illegal-access=warn']
+}

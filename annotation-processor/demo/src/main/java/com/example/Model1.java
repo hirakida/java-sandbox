@@ -1,7 +1,7 @@
 package com.example;
 
 @Hello
-public class Model {
+public class Model1 {
     private String message;
 
     public String getMessage() {

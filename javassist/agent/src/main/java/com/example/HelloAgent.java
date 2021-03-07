@@ -34,8 +34,8 @@ public class HelloAgent implements ClassFileTransformer {
                     ctConstructor.insertAfter("System.out.println(\"static\");");
 
                     CtMethod ctMethod = ctClass.getDeclaredMethod("hello");
-                    ctMethod.insertBefore("System.out.println(\"Hello\");");
-                    ctMethod.insertAfter("System.out.println(\"Hello!!\");");
+                    ctMethod.insertBefore("System.out.println(\"Before hello\");");
+                    ctMethod.insertAfter("System.out.println(\"After hello\");");
 
                     return ctClass.toBytecode();
                 } catch (Exception e) {
