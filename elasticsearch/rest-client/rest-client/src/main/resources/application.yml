@@ -1,0 +1,6 @@
+spring:
+  profiles:
+    include: secret
+  output:
+    ansi:
+      enabled: always
