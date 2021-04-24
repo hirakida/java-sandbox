@@ -9,6 +9,7 @@ import lombok.Data;
 public class LoginSession implements Serializable {
     private String state;
     private String nonce;
+    private String codeVerifier;
     private String accessToken;
     private IdTokenPayload payload;
 }

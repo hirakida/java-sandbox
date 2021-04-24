@@ -1,4 +1,4 @@
-package com.example.web;
+package com.example.web.client;
 
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.http.HttpEntity;
@@ -31,7 +31,7 @@ public class SocialApiClient {
     /**
      * OAuth
      */
-    public AccessToken issueAccessToken(String code) {
+    public AccessToken issueAccessToken(String code, String codeVerifier) {
         String url = UriComponentsBuilder.fromHttpUrl(BASE_URL)
                                          .path("/oauth2/v2.1/token")
                                          .toUriString();
@@ -41,6 +41,7 @@ public class SocialApiClient {
         body.add("client_secret", properties.getChannelSecret());
         body.add("redirect_uri", properties.getRedirectUri());
         body.add("code", code);
+        body.add("code_verifier", codeVerifier);
         var request = new HttpEntity<>(body, getHeaders());
 
         return restTemplate.postForObject(url, request, AccessToken.class);

@@ -8,6 +8,7 @@ import lombok.Data;
 @SuppressWarnings("serial")
 public class LoginSession implements Serializable {
     private String state;
+    private String codeVerifier;
     private String accessToken;
     private String refreshToken;
 }

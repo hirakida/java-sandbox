@@ -1,4 +1,4 @@
-package com.example.web;
+package com.example.web.client;
 
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.http.HttpEntity;
@@ -25,7 +25,7 @@ public class SocialApiClient {
         restTemplate = builder.build();
     }
 
-    public AccessToken issueAccessToken(String code) {
+    public AccessToken issueAccessToken(String code, String codeVerifier) {
         String url = UriComponentsBuilder.fromHttpUrl(BASE_URL)
                                          .path("/oauth2/v2.1/token")
                                          .toUriString();
@@ -35,22 +35,10 @@ public class SocialApiClient {
         body.add("client_secret", properties.getChannelSecret());
         body.add("redirect_uri", properties.getRedirectUri());
         body.add("code", code);
+        body.add("code_verifier", codeVerifier);
         var request = new HttpEntity<>(body, getHeaders());
 
         return restTemplate.postForObject(url, request, AccessToken.class);
-    }
-
-    public void revokeAccessToken(String accessToken) {
-        String url = UriComponentsBuilder.fromHttpUrl(BASE_URL)
-                                         .path("/oauth2/v2.1/revoke")
-                                         .toUriString();
-        MultiValueMap<String, String> body = new LinkedMultiValueMap<>();
-        body.add("access_token", accessToken);
-        body.add("client_id", properties.getChannelId());
-        body.add("client_secret", properties.getChannelSecret());
-        var request = new HttpEntity<>(body, getHeaders());
-
-        restTemplate.postForObject(url, request, Void.class);
     }
 
     public IdTokenPayload verifyIdToken(String idToken, String nonce) {

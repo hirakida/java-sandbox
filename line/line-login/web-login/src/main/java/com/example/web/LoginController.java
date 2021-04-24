@@ -12,9 +12,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.server.ResponseStatusException;
-import org.springframework.web.util.UriComponentsBuilder;
 
-import com.example.web.config.LineLoginProperties;
+import com.example.web.client.SocialApiClient;
 import com.example.web.model.AccessToken;
 import com.example.web.model.Friendship;
 import com.example.web.model.LoginSession;
@@ -28,15 +27,18 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class LoginController {
     private final SocialApiClient socialApiClient;
-    private final LineLoginProperties properties;
+    private final OAuthHelper oAuthHelper;
     private final LoginSession session;
 
     @GetMapping("/")
     public String index(ModelMap model) {
         if (session.getAccessToken() == null) {
             String state = UUID.randomUUID().toString();
+            String codeVerifier = oAuthHelper.getCodeVerifier();
+            String codeChallenge = oAuthHelper.getCodeChallenge(codeVerifier);
             session.setState(state);
-            return "redirect:" + getAuthorizationUrl(state);
+            session.setCodeVerifier(codeVerifier);
+            return "redirect:" + oAuthHelper.getAuthorizationUrl(state, codeChallenge);
         }
 
         Profile profile = socialApiClient.getProfile(session.getAccessToken());
@@ -57,7 +59,7 @@ public class LoginController {
                                                                        session.getState(), state));
         }
 
-        AccessToken accessToken = socialApiClient.issueAccessToken(code);
+        AccessToken accessToken = socialApiClient.issueAccessToken(code, session.getCodeVerifier());
         log.info("{}", accessToken);
         session.setAccessToken(accessToken.getAccessToken());
         session.setRefreshToken(accessToken.getRefreshToken());
@@ -84,16 +86,5 @@ public class LoginController {
         }
         httpSession.invalidate();
         return "redirect:/";
-    }
-
-    private String getAuthorizationUrl(String state) {
-        return UriComponentsBuilder.fromHttpUrl("https://access.line.me")
-                                   .path("/oauth2/v2.1/authorize")
-                                   .queryParam("response_type", "code")
-                                   .queryParam("client_id", properties.getChannelId())
-                                   .queryParam("redirect_uri", properties.getRedirectUri())
-                                   .queryParam("state", state)
-                                   .queryParam("scope", "profile")
-                                   .toUriString();
     }
 }
