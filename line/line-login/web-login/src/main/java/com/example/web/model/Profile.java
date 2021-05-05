@@ -1,11 +1,11 @@
 package com.example.web.model;
 
-import lombok.Data;
+import lombok.Value;
 
-@Data
+@Value
 public class Profile {
-    private String displayName;
-    private String userId;
-    private String pictureUrl;
-    private String statusMessage;
+    String displayName;
+    String userId;
+    String pictureUrl;
+    String statusMessage;
 }

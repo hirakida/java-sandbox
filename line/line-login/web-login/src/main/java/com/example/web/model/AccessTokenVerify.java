@@ -3,12 +3,12 @@ package com.example.web.model;
 import com.fasterxml.jackson.databind.PropertyNamingStrategy.SnakeCaseStrategy;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
 
-import lombok.Data;
+import lombok.Value;
 
 @JsonNaming(SnakeCaseStrategy.class)
-@Data
+@Value
 public class AccessTokenVerify {
-    private String scope;
-    private String clientId;
-    private int expiresIn;
+    String scope;
+    String clientId;
+    int expiresIn;
 }

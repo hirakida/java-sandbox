@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.server.ResponseStatusException;
 
-import com.example.web.client.SocialApiClient;
+import com.example.web.client.LineApiClient;
 import com.example.web.model.AccessToken;
 import com.example.web.model.Friendship;
 import com.example.web.model.LoginSession;
@@ -26,7 +26,7 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 @Slf4j
 public class LoginController {
-    private final SocialApiClient socialApiClient;
+    private final LineApiClient lineApiClient;
     private final OAuthHelper oAuthHelper;
     private final LoginSession session;
 
@@ -41,8 +41,8 @@ public class LoginController {
             return "redirect:" + oAuthHelper.getAuthorizationUrl(state, codeChallenge);
         }
 
-        Profile profile = socialApiClient.getProfile(session.getAccessToken());
-        Friendship friendship = socialApiClient.getFriendship(session.getAccessToken());
+        Profile profile = lineApiClient.getProfile(session.getAccessToken());
+        Friendship friendship = lineApiClient.getFriendship(session.getAccessToken());
         model.addAttribute("accessToken", session.getAccessToken());
         model.addAttribute("refreshToken", session.getRefreshToken());
         model.addAttribute("profile", profile);
@@ -59,7 +59,7 @@ public class LoginController {
                                                                        session.getState(), state));
         }
 
-        AccessToken accessToken = socialApiClient.issueAccessToken(code, session.getCodeVerifier());
+        AccessToken accessToken = lineApiClient.issueAccessToken(code, session.getCodeVerifier());
         log.info("{}", accessToken);
         session.setAccessToken(accessToken.getAccessToken());
         session.setRefreshToken(accessToken.getRefreshToken());
@@ -72,7 +72,7 @@ public class LoginController {
             throw new ResponseStatusException(FORBIDDEN, "RefreshToken not found");
         }
 
-        AccessToken accessToken = socialApiClient.reissueAccessToken(session.getRefreshToken());
+        AccessToken accessToken = lineApiClient.reissueAccessToken(session.getRefreshToken());
         log.info("{}", accessToken);
         session.setAccessToken(accessToken.getAccessToken());
         session.setRefreshToken(accessToken.getRefreshToken());
@@ -82,7 +82,7 @@ public class LoginController {
     @GetMapping("/logout")
     public String logout(HttpSession httpSession) {
         if (session.getAccessToken() != null) {
-            socialApiClient.revokeAccessToken(session.getAccessToken());
+            lineApiClient.revokeAccessToken(session.getAccessToken());
         }
         httpSession.invalidate();
         return "redirect:/";

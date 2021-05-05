@@ -1,8 +1,8 @@
 package com.example.web.model;
 
-import lombok.Data;
+import lombok.Value;
 
-@Data
+@Value
 public class Friendship {
-    private boolean friendFlag;
+    boolean friendFlag;
 }

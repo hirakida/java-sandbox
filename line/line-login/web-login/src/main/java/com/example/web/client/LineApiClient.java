@@ -1,5 +1,7 @@
 package com.example.web.client;
 
+import java.time.Duration;
+
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -18,14 +20,16 @@ import com.example.web.model.Friendship;
 import com.example.web.model.Profile;
 
 @Component
-public class SocialApiClient {
+public class LineApiClient {
     private static final String BASE_URL = "https://api.line.me";
     private final LineLoginProperties properties;
     private final RestTemplate restTemplate;
 
-    public SocialApiClient(LineLoginProperties properties, RestTemplateBuilder builder) {
+    public LineApiClient(LineLoginProperties properties, RestTemplateBuilder builder) {
         this.properties = properties;
-        restTemplate = builder.build();
+        restTemplate = builder.setConnectTimeout(Duration.ofSeconds(5))
+                              .setReadTimeout(Duration.ofSeconds(5))
+                              .build();
     }
 
     /**

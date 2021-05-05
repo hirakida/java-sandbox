@@ -15,12 +15,12 @@ import com.example.web.model.AccessToken;
 import com.example.web.model.IdTokenPayload;
 
 @Component
-public class SocialApiClient {
+public class LineApiClient {
     private static final String BASE_URL = "https://api.line.me";
     private final LineLoginProperties properties;
     private final RestTemplate restTemplate;
 
-    SocialApiClient(LineLoginProperties properties, RestTemplateBuilder builder) {
+    LineApiClient(LineLoginProperties properties, RestTemplateBuilder builder) {
         this.properties = properties;
         restTemplate = builder.build();
     }
