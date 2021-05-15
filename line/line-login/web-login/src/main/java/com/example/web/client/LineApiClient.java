@@ -1,8 +1,5 @@
 package com.example.web.client;
 
-import java.time.Duration;
-
-import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -19,18 +16,14 @@ import com.example.web.model.AccessTokenVerify;
 import com.example.web.model.Friendship;
 import com.example.web.model.Profile;
 
+import lombok.RequiredArgsConstructor;
+
 @Component
+@RequiredArgsConstructor
 public class LineApiClient {
     private static final String BASE_URL = "https://api.line.me";
     private final LineLoginProperties properties;
     private final RestTemplate restTemplate;
-
-    public LineApiClient(LineLoginProperties properties, RestTemplateBuilder builder) {
-        this.properties = properties;
-        restTemplate = builder.setConnectTimeout(Duration.ofSeconds(5))
-                              .setReadTimeout(Duration.ofSeconds(5))
-                              .build();
-    }
 
     /**
      * OAuth
