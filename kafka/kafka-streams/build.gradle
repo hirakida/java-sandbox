@@ -1,7 +1,8 @@
 apply plugin: 'org.springframework.boot'
 
 dependencies {
-    implementation 'org.apache.kafka:kafka-clients'
+    implementation project(':kafka-common')
+    implementation 'org.apache.kafka:kafka-streams'
     implementation 'org.springframework.boot:spring-boot-starter'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
