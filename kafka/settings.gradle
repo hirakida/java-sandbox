@@ -1,6 +1,0 @@
-rootProject.name = 'kafka-demo'
-
-include 'kafka-common',
-        'kafka-consumer',
-        'kafka-producer',
-        'kafka-streams'
