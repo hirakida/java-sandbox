@@ -1,8 +1,0 @@
-spring:
-  output:
-    ansi:
-      enabled: always
-logging:
-  level:
-    org.mongodb.driver.connection: warn
-    org.mongodb.driver.cluster: warn
