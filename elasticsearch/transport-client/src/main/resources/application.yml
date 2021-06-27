@@ -1,9 +1,0 @@
-spring:
-  profiles:
-    include: secret
-  output:
-    ansi:
-      enabled: always
-elasticsearch:
-  cluster-name: es-cluster
-  host: localhost
